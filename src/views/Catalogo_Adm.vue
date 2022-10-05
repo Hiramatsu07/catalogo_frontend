@@ -15,7 +15,7 @@
   <div class="search-area">
     <nav class="level">
       <!-- Left side -->
-      <form class="level-left" @submit.prevent="searchProd">
+      <form class="level-left" @submit.prevent="searchProducts">
         <div class="level-item">
           <div class="field has-addons">
             <p class="control is-expanded">
@@ -35,18 +35,21 @@
       <!-- Right side -->
     <div>
       <nav>
-      <div class="level-right">
-        <div class="level-item">
-          <p class="subtitle is-5">
-            <strong>Filtrar por</strong> Categoría
-          </p>
-        </div>
-        <div class="select is-link">
-          <select>
-            <option v-for="(categoria, index) in categoriaList" :key="index">{{ categoria.descripcion }}</option>
-          </select>
-        </div>
-      </div>
+        <div class="level-right">
+          <div class="level-item">
+            <p class="subtitle is-5">
+              <strong>Filtrar por</strong> Categoría
+            </p>
+          </div>  
+          <div class="select is-link">
+            <select>
+              <option v-for="(categoria, index) in categoriaList" :key="index">{{ categoria.descripcion }}</option>
+            </select>
+            </div>    
+            </div>  
+            <button class="button is-link" @click.prevent='add'>
+                Añadir
+              </button> 
     </nav>
   </div>
 
@@ -90,10 +93,8 @@
                       Eliminar
                   </button>
                   </div>
-                </nap>
-
+            </nap>
           </div>
-
         </div>
       </div>
     </div>
@@ -136,13 +137,16 @@ mounted() {
   this.getCategorias();
 },
 methods: {
-      add(){
+  add(){
         this.$router.push({name:'addProd'})
       },
-      edit(instance){
+  cancelar() {
+        this.$router.push({name: "catalogo_adm"})
+      },
+  edit(instance){
         this.$router.push({ name: 'editProd', query:{inst:instance}})
       },
-      del(instance) {
+  del(instance) {
         axios.delete(`http://localhost:5000/api/products/${instance.id}`)
           .then(()=>{
             this.searchProducts();
@@ -152,9 +156,10 @@ methods: {
             this.searchProducts();
           })
       },
+      
   async searchProducts(page) {
     this.loading = true;
-    this.search.id = this.buscador
+    this.search.nombre = this.buscador
     try {
       let data = (await HTTP.post(`/search/products`,this.search,{
         params: {

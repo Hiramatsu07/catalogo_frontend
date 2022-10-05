@@ -15,12 +15,6 @@
           </a>
         </router-link>
 
-        <router-link class="navbar-item" to="/catalogo">
-          <a class="navbar-item" :class="{'navbar-active': currentRouteName === 'catalogo'}">
-            <strong>Catálogo</strong>
-          </a>
-        </router-link>
-
         <router-link class="navbar-item"  to="/catalogo_adm">
           <a class="navbar-item" :class="{'navbar-active': currentRouteName === 'catalogo_adm'}">
             <strong>Administración del catálogo</strong>
